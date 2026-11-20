@@ -9,14 +9,11 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - name: Install dependencies & Theos
+      - name: Install Theos
         run: |
           sudo apt-get update
-          sudo apt-get install -y fakeroot build-essential curl unzip git clang lld
-          git clone --recursive https://github.com $HOME/theos
-          curl -LO https://github.com
-          unzip -q master.zip
-          mv sdks-master/*.sdk $HOME/theos/sdks/
+          sudo apt-get install -y fakeroot build-essential curl unzip git xz-utils
+          bash -c "$(curl -fsSL https://githubusercontent.com)"
 
       - name: Build .deb
         env:
