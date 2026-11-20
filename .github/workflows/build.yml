@@ -1,0 +1,29 @@
+name: Build Tweak
+
+on:
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: macos-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install Theos
+        run: |
+          git clone --recursive https://github.com $HOME/theos
+          curl -LO https://github.com
+          unzip master.zip
+          mv sdks-master/*.sdk $HOME/theos/sdks/
+
+      - name: Build .deb
+        env:
+          THEOS: /Users/runner/theos
+        run: |
+          make package FINALPACKAGE=1
+
+      - name: Upload artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: YTLocalQueue
+          path: packages/*.deb
