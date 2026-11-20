@@ -14,8 +14,13 @@ jobs:
 
       - name: Download YouTube Headers
         run: |
+          git clone --depth 1 --filter=blob:none --sparse https://github.com temp_headers
+          cd temp_headers
+          git sparse-checkout set YouTubeHeader
+          cd ..
           mkdir -p Headers
-          git clone --depth 1 https://github.com Headers/YouTubeHeader
+          mv temp_headers/YouTubeHeader Headers/YouTubeHeader
+          rm -rf temp_headers
 
       - name: Build .deb
         run: |
