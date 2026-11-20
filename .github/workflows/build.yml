@@ -6,18 +6,12 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
+    container:
+      image: ghcr.io/theos/theos:latest
     steps:
       - uses: actions/checkout@v4
 
-      - name: Install Theos
-        run: |
-          sudo apt-get update
-          sudo apt-get install -y fakeroot build-essential curl unzip git xz-utils
-          bash -c "$(curl -fsSL https://githubusercontent.com)"
-
       - name: Build .deb
-        env:
-          THEOS: /home/runner/theos
         run: |
           make package FINALPACKAGE=1
 
